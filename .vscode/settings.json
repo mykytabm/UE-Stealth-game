@@ -1,0 +1,9 @@
+{
+	"files.exclude": {
+		"D:/RepositoryUEGame/.git": true,
+		"D:/RepositoryUEGame/.vscode": true,
+		"D:/RepositoryUEGame/Content": true,
+		"D:/RepositoryUEGame/Intermediate": true,
+		"D:/RepositoryUEGame/Saved": true
+	}
+}
