@@ -1,0 +1,128 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Learning (Debug)",
+			"request": "launch",
+			"preLaunchTask": "Learning Win64 Debug Build",
+			"program": "D:\\RepositoryUEGame\\Binaries\\Win64\\UE4-Win64-Debug.exe",
+			"args": [
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Learning (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "Learning Win64 DebugGame Build",
+			"program": "D:\\RepositoryUEGame\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
+			"args": [
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Learning (Development)",
+			"request": "launch",
+			"preLaunchTask": "Learning Win64 Development Build",
+			"program": "D:\\RepositoryUEGame\\Binaries\\Win64\\UE4.exe",
+			"args": [
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Learning (Shipping)",
+			"request": "launch",
+			"preLaunchTask": "Learning Win64 Shipping Build",
+			"program": "D:\\RepositoryUEGame\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
+			"args": [
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Learning (Test)",
+			"request": "launch",
+			"preLaunchTask": "Learning Win64 Test Build",
+			"program": "D:\\RepositoryUEGame\\Binaries\\Win64\\UE4-Win64-Test.exe",
+			"args": [
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "LearningEditor (Debug)",
+			"request": "launch",
+			"preLaunchTask": "LearningEditor Win64 Debug Build",
+			"program": "C:\\Unreal\\UE_4.23\\Engine\\Binaries\\Win64\\UE4Editor-Win64-Debug.exe",
+			"args": [
+				"D:\\RepositoryUEGame\\Learning.uproject"
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "LearningEditor (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "LearningEditor Win64 DebugGame Build",
+			"program": "C:\\Unreal\\UE_4.23\\Engine\\Binaries\\Win64\\UE4Editor-Win64-DebugGame.exe",
+			"args": [
+				"D:\\RepositoryUEGame\\Learning.uproject"
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "LearningEditor (Development)",
+			"request": "launch",
+			"preLaunchTask": "LearningEditor Win64 Development Build",
+			"program": "C:\\Unreal\\UE_4.23\\Engine\\Binaries\\Win64\\UE4Editor.exe",
+			"args": [
+				"D:\\RepositoryUEGame\\Learning.uproject"
+			],
+			"cwd": "C:\\Unreal\\UE_4.23",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Unreal\\UE_4.23\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Generate Project Files",
+			"type": "clr",
+			"request": "launch",
+			"program": "C:\\Unreal\\UE_4.23\\Engine\\Binaries\\DotNET\\UnrealBuildTool.exe",
+			"console": "externalTerminal",
+			"args": [
+				"-projectfiles",
+				"-vscode",
+				"-project=\"D:\\RepositoryUEGame\\Learning.uproject\"",
+				"-game",
+				"-engine"
+			],
+			"internalConsoleOptions": "openOnSessionStart",
+			"cwd": "C:\\Unreal\\UE_4.23"
+		}
+	]
+}
