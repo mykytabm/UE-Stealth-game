@@ -4,6 +4,7 @@
 #include "FPSHUD.h"
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 AFPSGameMode::AFPSGameMode()
 {
@@ -13,4 +14,33 @@ AFPSGameMode::AFPSGameMode()
 
 	// use our custom HUD class
 	HUDClass = AFPSHUD::StaticClass();
+}
+
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
+{
+	if(InstigatorPawn)
+	{
+		InstigatorPawn->DisableInput(nullptr);
+
+		if(SpectatingViewPointClass)
+		{
+			TArray<AActor*> ReturnedActors;
+			UGameplayStatics::GetAllActorsOfClass(this,SpectatingViewPointClass,ReturnedActors);
+			if(ReturnedActors.Num()>0)
+			{
+				AActor* NewViewTarget=ReturnedActors[0];
+				APlayerController* PC=Cast<APlayerController>(InstigatorPawn->GetController());
+				if(PC)
+				{
+					PC->SetViewTargetWithBlend(NewViewTarget,0.5f,EViewTargetBlendFunction::VTBlend_Cubic);
+				}
+			}
+			OnMissionCompleted(InstigatorPawn);
+		}
+		else
+		{
+			UE_LOG(LogTemp,Log,TEXT("SpectatingViewPointClass is nullptr!"));
+		}
+	}
+
 }
