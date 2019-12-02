@@ -13,6 +13,8 @@ AFPSAIGuard::AFPSAIGuard()
 	PawnSensingComp=CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 
 	PawnSensingComp->OnSeePawn.AddDynamic(this,&AFPSAIGuard::OnPawnSeen);
+	PawnSensingComp->OnHearNoise.AddDynamic(this,&AFPSAIGuard::OnNoiseHeard);
+
 
 }
 
@@ -29,13 +31,19 @@ void AFPSAIGuard::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AFPSAIGuard::OnNoiseHeard(APawn* NoiseInstigator,const FVector& Location,float Volume)
+{
+	DrawDebugSphere(GetWorld(),Location,32.0f,12,FColor::Blue,false,10.0f);
+}
+
 void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
 {
 	if(SeenPawn==nullptr)
 	{
 		 return;
 	}
-	UE_LOG(LogTemp,Log,TEXT("Guard noticed you!!"));
+
+	UE_LOG(LogTemp,Log,TEXT("Guard noticed you!"));
 	
 	DrawDebugSphere(GetWorld(),SeenPawn->GetActorLocation(),32.0f,12,FColor::Red,false,10.0f);
 }
