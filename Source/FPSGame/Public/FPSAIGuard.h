@@ -7,6 +7,19 @@
 #include "FPSAIGuard.generated.h"
 
 class UPawnSensingComponent;
+
+UENUM(BlueprintType)
+enum class EAIState : uint8
+{
+	Idle,
+
+	Patrolling,
+
+	Investigating,
+
+	Alert,
+};
+
 UCLASS()
 class FPSGAME_API AFPSAIGuard : public ACharacter
 {
@@ -16,20 +29,59 @@ public:
 	// Sets default values for this character's properties
 	AFPSAIGuard();
 
+private:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(VisibleAnywhere,Category="Components")
-	UPawnSensingComponent* PawnSensingComp;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPawnSensingComponent *PawnSensingComp;
 
 	UFUNCTION()
-	void OnPawnSeen(APawn* SeenPawn);
+	void OnPawnSeen(APawn *SeenPawn);
 
 	UFUNCTION()
-	void OnNoiseHeard(APawn* NoiseInstigator,const FVector& Location,float Volume);
+	void OnNoiseHeard(APawn *NoiseInstigator, const FVector &Location, float Volume);
 
-public:	
+	UFUNCTION()
+	void ResetOrientation();
+
+	UFUNCTION()
+	void Patrol();
+
+	UFUNCTION()
+	void WaypointReached();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+	void OnStateChanged(EAIState NewState);
+
+	UFUNCTION()
+	void WaitBeforePatrolling();
+
+	void SetGuardState(EAIState NewState);
+
+	UPROPERTY(EditInstanceOnly, Category = "AI")
+	bool bPatrol=false;
+
+	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
+	float WaitOnPatrolPointTime=3.0f;
+
+	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
+	int WaypointAcceptanceRange=100;
+
+	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
+	TArray<AActor *> Waypoints;
+
+
+
+	FTimerHandle TimerHandle_ResetOrientation;
+	FTimerHandle TimerHandle_WaitBeforePatrolling;
+
+	int CurrentPatrolPoint;
+
+	FRotator OriginalRotation;
+	EAIState GuardState;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

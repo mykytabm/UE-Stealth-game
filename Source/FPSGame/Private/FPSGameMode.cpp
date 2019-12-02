@@ -16,7 +16,7 @@ AFPSGameMode::AFPSGameMode()
 	HUDClass = AFPSHUD::StaticClass();
 }
 
-void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn,bool bMissionSuccess)
 {
 	if(InstigatorPawn)
 	{
@@ -35,7 +35,7 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 					PC->SetViewTargetWithBlend(NewViewTarget,0.5f,EViewTargetBlendFunction::VTBlend_Cubic);
 				}
 			}
-			OnMissionCompleted(InstigatorPawn);
+			OnMissionCompleted(InstigatorPawn, bMissionSuccess);
 		}
 		else
 		{
