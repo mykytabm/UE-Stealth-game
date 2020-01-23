@@ -6,6 +6,7 @@
 #include "FPSGameMode.h"
 #include "AIController.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
@@ -19,9 +20,7 @@ AFPSAIGuard::AFPSAIGuard()
 	PawnSensingComp->OnHearNoise.AddDynamic(this, &AFPSAIGuard::OnNoiseHeard);
 
 	GuardState = EAIState::Idle;
-	UE_LOG(LogTemp,Log,TEXT("ctor"));
-
-	
+	UE_LOG(LogTemp, Log, TEXT("ctor"));
 }
 
 // Called when the game starts or when spawned
@@ -43,11 +42,11 @@ void AFPSAIGuard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(bPatrol)
+	if (bPatrol)
 	{
-		FVector Delta=GetActorLocation()-Waypoints[CurrentPatrolPoint]->GetActorLocation();
-		float DistanceToGoal=Delta.Size();
-		if(DistanceToGoal<WaypointAcceptanceRange)
+		FVector Delta = GetActorLocation() - Waypoints[CurrentPatrolPoint]->GetActorLocation();
+		float DistanceToGoal = Delta.Size();
+		if (DistanceToGoal < WaypointAcceptanceRange)
 		{
 			WaypointReached();
 		}
@@ -55,13 +54,13 @@ void AFPSAIGuard::Tick(float DeltaTime)
 }
 
 void AFPSAIGuard::Patrol()
-{	
-	if(Waypoints[CurrentPatrolPoint]==nullptr)
+{
+	if (Waypoints[CurrentPatrolPoint] == nullptr)
 	{
 		return;
 	}
 	SetGuardState(EAIState::Patrolling);
-	UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(),Waypoints[CurrentPatrolPoint]);
+	UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), Waypoints[CurrentPatrolPoint]);
 }
 
 void AFPSAIGuard::WaitBeforePatrolling()
@@ -72,7 +71,7 @@ void AFPSAIGuard::WaitBeforePatrolling()
 
 void AFPSAIGuard::WaypointReached()
 {
-	if (CurrentPatrolPoint+1 > Waypoints.Num()-1)
+	if (CurrentPatrolPoint + 1 > Waypoints.Num() - 1)
 	{
 		CurrentPatrolPoint = 0;
 	}
@@ -94,7 +93,7 @@ void AFPSAIGuard::ResetOrientation()
 	SetGuardState(EAIState::Idle);
 	SetActorRotation(OriginalRotation);
 
-	if(bPatrol)
+	if (bPatrol)
 	{
 		Patrol();
 	}
@@ -119,15 +118,19 @@ void AFPSAIGuard::OnNoiseHeard(APawn *NoiseInstigator, const FVector &Location, 
 	SetActorRotation(NewLookAt);
 	SetGuardState(EAIState::Investigating);
 
-	AController* Controller=GetController();
-	if(Controller)
+	AController *Controller = GetController();
+	if (Controller)
 	{
 		Controller->StopMovement();
 	}
 
-
 	GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
 	GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 3.0f, false);
+}
+
+void AFPSAIGuard::OnRep_GuardState()
+{
+	OnStateChanged(GuardState);
 }
 
 void AFPSAIGuard::SetGuardState(EAIState NewState)
@@ -136,8 +139,9 @@ void AFPSAIGuard::SetGuardState(EAIState NewState)
 	{
 		return;
 	}
+
 	GuardState = NewState;
-	OnStateChanged(GuardState);
+	OnRep_GuardState();
 }
 
 void AFPSAIGuard::OnPawnSeen(APawn *SeenPawn)
@@ -154,9 +158,16 @@ void AFPSAIGuard::OnPawnSeen(APawn *SeenPawn)
 		GM->CompleteMission(SeenPawn, false);
 	}
 	SetGuardState(EAIState::Alert);
-	AController* Controller=GetController();
-	if(Controller)
+	AController *Controller = GetController();
+	if (Controller)
 	{
 		Controller->StopMovement();
 	}
+}
+
+void AFPSAIGuard::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AFPSAIGuard, GuardState);
 }

@@ -57,21 +57,25 @@ protected:
 	UFUNCTION()
 	void WaitBeforePatrolling();
 
+	UFUNCTION()
+	void OnRep_GuardState();
+
 	void SetGuardState(EAIState NewState);
 
+	UPROPERTY(ReplicatedUsing = OnRep_GuardState)
+	EAIState GuardState;
+
 	UPROPERTY(EditInstanceOnly, Category = "AI")
-	bool bPatrol=false;
+	bool bPatrol = false;
 
 	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
-	float WaitOnPatrolPointTime=3.0f;
+	float WaitOnPatrolPointTime = 3.0f;
 
 	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
-	int WaypointAcceptanceRange=100;
+	int WaypointAcceptanceRange = 100;
 
 	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bPatrol"))
 	TArray<AActor *> Waypoints;
-
-
 
 	FTimerHandle TimerHandle_ResetOrientation;
 	FTimerHandle TimerHandle_WaitBeforePatrolling;
@@ -79,7 +83,6 @@ protected:
 	int CurrentPatrolPoint;
 
 	FRotator OriginalRotation;
-	EAIState GuardState;
 
 public:
 	// Called every frame
